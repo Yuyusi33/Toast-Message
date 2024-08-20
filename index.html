@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>TOAST MESSAGE</title>
+  </head>
+  <body>
+    <!-- TOAST MESSAGE -->
+    <div id="toast">
+      <!-- <div class="toast toast--success">
+        <div class="toast__icon">
+          <i class="fa-regular fa-circle-check"></i>
+        </div>
+        <div class="toast__body">
+          <h3 class="toast__title">Success</h3>
+          <p class="toast__msg">may vi tinh ket s</p>
+        </div>
+        <div class="toast__close">
+          <i class="fa-solid fa-xmark"></i>
+        </div>
+      </div> -->
+    </div>
+    <!-- BUTTON -->
+    <div>
+      <div class="btn btn--success">
+        <button onclick="showSuccessToast()" class=btn btn--success">Success</button>
+      </div>
+      <div onclick="showErrorToast()"  class="btn btn--error">
+        
+        <button class=btn btn--error">Error</button>
+
+      </div>
+    </div>
+
+    <script>
+        function toast({title = '', message = '',type = 'info',duration = 3000}){
+            
+
+            const main = document.getElementById('toast')
+            if(main){
+             
+                
+                const delay = (duration/1000).toFixed(2)
+                const toast = document.createElement('div')
+
+
+                 // AUTO REMOVE 
+             const autoRemoveId = setTimeout(function (){
+                  main.removeChild(toast)
+                }, duration + 1000)
+
+              // REMOVE WHEN CLICKED
+                  
+                toast.onclick = function(e){
+                  if(e.target.closest('.toast__close')){
+                    main.removeChild(toast)
+                    clearTimeout(autoRemoveId)
+                  }
+                }
+                const icons = {
+                  success:'<i class="fa-regular fa-circle-check"></i>',
+                  info:'<i class="fa-solid fa-circle-info"></i>',
+                  warning:'<i class="fa-solid fa-triangle-exclamation"></i>',
+                  error:'<i class="fa-solid fa-bug"></i>'
+                };
+
+                const icon = icons[type]
+
+               
+                
+                toast.style.animation = ` slideInLeft ease 0.3s, fadeOut 1s ${delay}s forwards`
+                toast.classList.add('toast', `toast--${type}`)
+                toast.innerHTML = `
+                   
+                       <div class="toast__icon">
+                             ${icon}
+                        </div>
+                        <div class="toast__body">
+                                <h3 class="toast__title">${title}</h3>
+                                <p class="toast__msg">${message}</p>
+                        </div>
+                         <div class="toast__close">
+                            <i class="fa-solid fa-xmark"></i>
+                        </div>
+                   
+                `;
+                main.appendChild(toast)
+
+               
+            }
+
+        }
+        function showSuccessToast(){
+          toast({
+            title: 'Success',
+            message: 'ban da dang ki thanh cong',
+            type: 'success',
+            duration:3000
+        })
+        }
+        function showErrorToast(){
+          toast({
+            title: 'error',
+            message: 'co loi xay ra',
+            type: 'error',
+            duration:4000
+        })
+        }
+
+       
+ 
+    </script>
+  </body>
+</html>
